@@ -76,7 +76,14 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-   
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'blog_db',
+        'HOST':'127.0.0.1',
+        'USER':'root',
+        'PASSWORD':'KSMkepim1!',
+        'PORT':'3306'
+    }
 }
 
 

@@ -11,7 +11,7 @@
 <body class="bg-light">
     <div class="container pt-4">
         <h1>User Comments</h1>
-        <form action="/blog/" method="POST" id="form">  <!-- Corrected action and method -->
+        <form action="/blog/" method="POST" id="form">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -29,7 +29,7 @@
                 method: 'POST',
                 body: new FormData(form),
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest',  // Helps in identifying Ajax requests
+                    'X-Requested-With': 'XMLHttpRequest',
                 }
             })
             .then(response => {
