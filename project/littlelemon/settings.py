@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # The settings for app updated for the Graded assessment
-    'restaurant',
+    # The settings for the app updated for the Graded assessment
+    'restaurant',  # This is your custom app
 ]
 
 MIDDLEWARE = [
@@ -51,13 +51,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'littlelemon.urls'
+ROOT_URLCONF = 'littlelemon.urls'  # Ensure the project directory matches 'littlelemon'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # The settings for templates updated for the Graded assessment
-        'DIRS': ['restaurant/templates' ],
+        'DIRS': [BASE_DIR / 'restaurant' / 'templates'],  # Ensure correct path
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,10 +80,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'reservations',
-        'HOST' : '127.0.0.1',
-        'PORT' : '3306',
-        'USER' : 'root',
-        'PASSWORD' : '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'USER': 'root',
+        'PASSWORD': '',
     }
 }
 
@@ -125,10 +125,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 # The settings for static files have been updated for the Graded assessment
-STATIC_URL = 'restaurant/static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    "restaurant/static",
+    BASE_DIR / 'restaurant' / 'static',  # Ensure correct path
 ]
 
 # Default primary key field type
