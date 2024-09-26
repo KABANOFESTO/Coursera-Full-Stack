@@ -49,22 +49,33 @@ def display_menu_item(request, pk=None):
 @csrf_exempt
 def bookings(request):
     if request.method == 'POST':
-        data = json.load(request)
-        exist = Booking.objects.filter(reservation_date=data['reservation_date']).filter(
-            reservation_slot=data['reservation_slot']).exists()
-        if exist==False:
-            booking = Booking(
-                first_name=data['first_name'],
-                reservation_date=data['reservation_date'],
-                reservation_slot=data['reservation_slot'],
-            )
-            booking.save()
-        else:
-            return HttpResponse("{'error':1}", content_type='application/json')
-    
-    date = request.GET.get('date',datetime.today().date())
+        try:
+            # Parse the JSON data from the POST request
+            data = json.loads(request.body)
 
-    bookings = Booking.objects.all().filter(reservation_date=date)
+            # Check if the booking already exists
+            exists = Booking.objects.filter(reservation_date=data['reservation_date']).filter(
+                reservation_slot=data['reservation_slot']).exists()
+
+            if not exists:
+                # Create a new booking if it doesn't exist
+                booking = Booking(
+                    first_name=data['first_name'],
+                    reservation_date=data['reservation_date'],
+                    reservation_slot=data['reservation_slot'],
+                )
+                booking.save()
+            else:
+                # Return an error response if the booking already exists
+                return HttpResponse(json.dumps({'error': 1}), content_type='application/json')
+
+        except KeyError:
+            # Handle cases where the required fields are missing
+            return HttpResponse(json.dumps({'error': 'Invalid data'}), content_type='application/json')
+
+    # Handle GET request to retrieve bookings for a specific date (default to today)
+    date = request.GET.get('date', datetime.today().date())
+    bookings = Booking.objects.filter(reservation_date=date)
     booking_json = serializers.serialize('json', bookings)
 
     return HttpResponse(booking_json, content_type='application/json')
